@@ -33,6 +33,7 @@ param (
   [String] $LocalPath,
   [Uri] $CollectionUrl
 )
+  $LocalPath = ($LocalPath | DefaultIfBlank '.')
   $cmdArgs = CommandArguments @(
     'workfold'
     '/map'
@@ -164,9 +165,7 @@ param (
   [switch] $InExternalWindow,
   [switch] $Ascending
 )
-  $LocalOrServerPath = ($LocalOrServerPath | Coalesce '')
-  $LocalOrServerPath =
-    if ($LocalOrServerPath -eq '') { '.' } else { $LocalOrServerPath }
+  $LocalOrServerPath = ($LocalOrServerPath | DefaultIfBlank '.')
   $sortDirection = ''
   if ((-not $InExternalWindow) -and $Ascending) {
     $sortDirection = 'Ascending'

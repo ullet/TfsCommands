@@ -72,7 +72,7 @@ Describe 'New-TfsWorkFolderMapping' {
     Assert-MockCalled @assertArgs
   }
 
-  It 'does not require local path parameter' {
+  It 'defaults to current directory if local path omitted' {
     $workspaceName = 'some-workspace'
     $serverPath = '$/project/directory'
 
@@ -86,7 +86,8 @@ Describe 'New-TfsWorkFolderMapping' {
         $Arguments -icontains '/map' -and
         $Arguments -icontains "/workspace:$workspaceName" -and
         $Arguments -icontains $serverPath -and
-        $Arguments.Count -eq 3
+        $Arguments -icontains '.' -and
+        $Arguments.Count -eq 4
       }
     }
     Assert-MockCalled @assertArgs
