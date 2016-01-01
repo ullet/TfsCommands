@@ -53,8 +53,7 @@ param (
   [String] $Path,
   [switch] $NoMap
 )
-  $Path = ($Path | DefaultIfBlank '')
-  if ($Path -eq '') { $NoMap = $true }
+  $Path = ($Path | DefaultIfBlank '.')
   $tmpDir = $null
   try {
     $rootMapPath = $Path
