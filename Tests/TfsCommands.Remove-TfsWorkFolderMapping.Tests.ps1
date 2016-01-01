@@ -84,4 +84,15 @@ Describe 'Remove-TfsWorkFolderMapping' {
     }
     Assert-MockCalled @assertArgs
   }
+
+  It 'defaults to current directory if server or local path not given' {
+    Remove-TfsWorkFolderMapping
+
+    $assertArgs = @{
+      ModuleName = 'TfsCommands'
+      CommandName = 'Invoke-TfsCommand'
+      ParameterFilter = { $Arguments -icontains '.' }
+    }
+    Assert-MockCalled @assertArgs
+  }
 }

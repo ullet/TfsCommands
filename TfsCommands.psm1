@@ -33,7 +33,7 @@ param (
   [String] $LocalPath,
   [Uri] $CollectionUrl
 )
-  $LocalPath = ($LocalPath | DefaultIfBlank '.')
+  $LocalPath = ($LocalPath | DefaultToCurrentDirectory)
   $cmdArgs = CommandArguments @(
     'workfold'
     '/map'
@@ -53,7 +53,7 @@ param (
   [String] $Path,
   [switch] $NoMap
 )
-  $Path = ($Path | DefaultIfBlank '.')
+  $Path = ($Path | DefaultToCurrentDirectory)
   $tmpDir = $null
   try {
     $rootMapPath = $Path
@@ -107,11 +107,11 @@ param (
 
 function Remove-TfsWorkFolderMapping {
 param (
-  [Parameter(Mandatory)]
   [String] $LocalOrServerPath,
   [String] $WorkspaceName,
   [Uri] $CollectionUrl
 )
+  $LocalOrServerPath = ($LocalOrServerPath | DefaultToCurrentDirectory)
   $cmdArgs = CommandArguments @(
     'workfold'
     '/unmap'
@@ -143,9 +143,7 @@ param (
   [switch] $FoldersOnly,
   [switch] $IncludeDeleted
 )
-  $LocalOrServerPath = ($LocalOrServerPath | Coalesce '')
-  $LocalOrServerPath =
-    if ($LocalOrServerPath -eq '') { '.' } else { $LocalOrServerPath }
+  $LocalOrServerPath = ($LocalOrServerPath | DefaultToCurrentDirectory)
   $cmdArgs = CommandArguments @(
     'dir'
     $LocalOrServerPath
@@ -164,7 +162,7 @@ param (
   [switch] $InExternalWindow,
   [switch] $Ascending
 )
-  $LocalOrServerPath = ($LocalOrServerPath | DefaultIfBlank '.')
+  $LocalOrServerPath = ($LocalOrServerPath | DefaultToCurrentDirectory)
   $sortDirection = ''
   if ((-not $InExternalWindow) -and $Ascending) {
     $sortDirection = 'Ascending'
@@ -384,8 +382,8 @@ function CommandArguments {
     [Object[]] $cmdArgs
   )
   # flatten (1 level) and remove any nulls or blanks
-  $outCmdArgs = $cmdArgs | 
-    % { $_ } | 
+  $outCmdArgs = $cmdArgs |
+    % { $_ } |
     ? { (([String]$_) | DefaultIfBlank '') -ne '' }
   $outCmdArgs
 }
@@ -411,6 +409,14 @@ param (
     $trimmedValue = ($_ | Coalesce '').Trim()
     if ($trimmedValue -eq '') { $Default } else { $_ }
   }
+}
+
+function DefaultToCurrentDirectory {
+param (
+  [Parameter(ValueFromPipeline)]
+  [String[]] $paths
+)
+  $paths | DefaultIfBlank '.'
 }
 
 function ExportFunction {
