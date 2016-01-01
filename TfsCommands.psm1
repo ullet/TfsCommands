@@ -68,13 +68,13 @@ param (
       $rootMapPath
       'workspace'
       '/new'
+      $Name
       (NoPromptParameter)
       (CollectionParameter $CollectionUrl)
       (CommentParameter $Comment)
       (LocationParameter)
       (PermissionParameter)
-      (ComputerParameter)
-      $Name)
+      (ComputerParameter))
     Invoke-TfsCommandAtLocation @cmdArgs
     if ($NoMap) {
       # Previous command forced setting a mapping to root $/ which is not
@@ -241,9 +241,9 @@ param (
   [String] $Comment
 )
   $Comment = ($Comment | Coalesce '')
-  $cmdArgs = @('comment')
-  if ($Comment -ne '') { $cmdArgs += ('''' + $Comment + '''') }
-  OptionalNamedParameter @cmdArgs
+  $parameter = OptionalNamedParameter 'comment' $Comment
+  # wrap whole parameter in quotes to prevent later being split on whitespace
+  if ($parameter) { "`"$parameter`"" } else { $null }
 }
 
 function VersionParameter {
@@ -337,7 +337,7 @@ param (
   [String] $Name,
   [String] $Value
 )
-  $Value = ($Value | Coalesce '')
+  $Value = ($Value | DefaultIfBlank '')
   if ($Value -ne '') { Parameter $Name $Value } else { $null }
 }
 

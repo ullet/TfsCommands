@@ -48,7 +48,7 @@ Describe 'New-TfsWorkspace' {
         $Arguments -icontains '/new' -and
         $Arguments -icontains $workspaceName -and
         $Arguments -icontains "/collection:$collectionUrl" -and
-        $Arguments -icontains "/comment:'$comment'" -and
+        $Arguments -icontains "`"/comment:$comment`"" -and
         $Arguments -icontains "/noprompt" -and
         $Arguments -icontains "/permission:private" -and
         $Arguments -icontains "/location:server" -and
