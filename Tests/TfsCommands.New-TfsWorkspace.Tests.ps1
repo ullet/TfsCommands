@@ -59,6 +59,19 @@ Describe 'New-TfsWorkspace' {
     Assert-MockCalled @assertArgs
   }
 
+  It 'handles comments containing double quotes' {
+    New-TfsWorkspace 'some-workspace' -Comment 'a "comment"'
+
+    $assertArgs = @{
+      ModuleName = 'TfsCommands'
+      CommandName = 'Invoke-TfsCommandAtLocation'
+      ParameterFilter = {
+        $Arguments -icontains "`"/comment:a `"`"comment`"`"`""
+      }
+    }
+    Assert-MockCalled @assertArgs
+  }
+
   It 'creates new workspace with root work folder mapping to specified path' {
     $workspaceName = 'some-workspace'
     $collectionUrl = 'http://some/tfs/collection'

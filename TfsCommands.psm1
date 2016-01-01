@@ -241,6 +241,7 @@ param (
   [String] $Comment
 )
   $Comment = ($Comment | Coalesce '')
+  $Comment = EscapeDoubleQuotes $Comment
   $parameter = OptionalNamedParameter 'comment' $Comment
   # wrap whole parameter in quotes to prevent later being split on whitespace
   if ($parameter) { "`"$parameter`"" } else { $null }
@@ -370,6 +371,14 @@ param (
     $parameter = $Value
   }
   $parameter
+}
+
+function EscapeDoubleQuotes {
+param (
+  [String] $value
+)
+  # Simply replace with 'dos' two quotes escape sequence
+  $value -replace '"', '""'
 }
 
 function CommandArguments {
