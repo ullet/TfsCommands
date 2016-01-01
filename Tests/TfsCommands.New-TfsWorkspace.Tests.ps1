@@ -48,12 +48,25 @@ Describe 'New-TfsWorkspace' {
         $Arguments -icontains '/new' -and
         $Arguments -icontains $workspaceName -and
         $Arguments -icontains "/collection:$collectionUrl" -and
-        $Arguments -icontains "/comment:'$comment'" -and
+        $Arguments -icontains "`"/comment:$comment`"" -and
         $Arguments -icontains "/noprompt" -and
         $Arguments -icontains "/permission:private" -and
         $Arguments -icontains "/location:server" -and
         $Arguments -icontains "/computer:$env:COMPUTERNAME" -and
         $Arguments.Count -eq 8
+      }
+    }
+    Assert-MockCalled @assertArgs
+  }
+
+  It 'handles comments containing double quotes' {
+    New-TfsWorkspace 'some-workspace' -Comment 'a "comment"'
+
+    $assertArgs = @{
+      ModuleName = 'TfsCommands'
+      CommandName = 'Invoke-TfsCommandAtLocation'
+      ParameterFilter = {
+        $Arguments -icontains "`"/comment:a `"`"comment`"`"`""
       }
     }
     Assert-MockCalled @assertArgs
