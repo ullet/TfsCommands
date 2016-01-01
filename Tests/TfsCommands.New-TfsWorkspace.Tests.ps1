@@ -145,13 +145,13 @@ Describe 'New-TfsWorkspace' {
     Assert-MockCalled @assertArgs
   }
   
-  It 'uses temporary location if local path for root mapping not given' {
+  It 'uses current directory if local path for root mapping not given' {
     New-TfsWorkspace 'some-workspace'
 
     $assertArgs = @{
       ModuleName = 'TfsCommands'
       CommandName = 'Invoke-TfsCommandAtLocation'
-      ParameterFilter = { $Location -eq 'TestDrive:\tempdir' }
+      ParameterFilter = { $Location -eq '.' }
     }
     Assert-MockCalled @assertArgs
   }
