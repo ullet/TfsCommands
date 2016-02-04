@@ -10,7 +10,7 @@ Import-Module TemporaryDirectory
 
 function New-TfsCloak {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $ServerPath,
   [String] $WorkspaceName,
   [Uri] $CollectionUrl
@@ -26,9 +26,9 @@ param (
 
 function New-TfsWorkFolderMapping {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $WorkspaceName,
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $ServerPath,
   [String] $LocalPath,
   [Uri] $CollectionUrl
@@ -46,7 +46,7 @@ param (
 
 function New-TfsWorkspace {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $Name,
   [Uri] $CollectionUrl,
   [String] $Comment,
@@ -91,7 +91,7 @@ param (
 
 function Remove-TfsCloak {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $ServerPath,
   [String] $WorkspaceName,
   [Uri] $CollectionUrl
@@ -123,7 +123,7 @@ param (
 
 function Remove-TfsWorkspace {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $Name,
   [Uri] $CollectionUrl
 )
@@ -193,11 +193,11 @@ param (
 
 function Invoke-TfsCommandAtLocation {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   $Location,
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $Command,
-  [Parameter(ValueFromRemainingArguments)]
+  [Parameter(ValueFromRemainingArguments = $true)]
   [Object[]] $Arguments
 )
   Push-Location $Location
@@ -207,9 +207,9 @@ param (
 
 function Invoke-TfsCommand {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $Command,
-  [Parameter(ValueFromRemainingArguments)]
+  [Parameter(ValueFromRemainingArguments = $true)]
   [Object[]] $Arguments
 )
   $cmdArgs = CommandArguments @($Command, $Arguments)
@@ -330,7 +330,7 @@ param (
 
 function OptionalNamedParameter {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $Name,
   [String] $Value
 )
@@ -340,7 +340,7 @@ param (
 
 function SwitchParameter {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $Name,
   [bool] $Enabled = $true
 )
@@ -349,7 +349,7 @@ param (
 
 function Parameter {
 param (
-  [Parameter(Mandatory)]
+  [Parameter(Mandatory = $true)]
   [String] $Name,
   [String] $Value
 )
@@ -391,7 +391,7 @@ function CommandArguments {
 function Coalesce {
 param (
   [Object] $Default,
-  [Parameter(ValueFromPipeline)]
+  [Parameter(ValueFromPipeline = $true)]
   [Object[]] $Source
 )
   Process {
@@ -402,7 +402,7 @@ param (
 function DefaultIfBlank {
 param (
   [String] $Default,
-  [Parameter(ValueFromPipeline)]
+  [Parameter(ValueFromPipeline = $true)]
   [String[]] $Source
 )
   Process {
@@ -413,7 +413,7 @@ param (
 
 function DefaultToCurrentDirectory {
 param (
-  [Parameter(ValueFromPipeline)]
+  [Parameter(ValueFromPipeline = $true)]
   [String[]] $paths
 )
   $paths | DefaultIfBlank '.'
@@ -421,7 +421,7 @@ param (
 
 function ExportFunction {
   param (
-    [Parameter(Mandatory)]
+    [Parameter(Mandatory = $true)]
     [String] $Function,
     [String] $Alias
   )
