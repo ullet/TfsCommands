@@ -4,7 +4,7 @@
 
 # Released under terms of the MIT License - see LICENSE for details.
 
-Import-Module TemporaryDirectory
+Import-Module GeneralCommands
 
 # public
 
