@@ -14,7 +14,7 @@ does not provide Cmdlets for creating or deleting workspaces, workfolder mapping
 
 ## How to install
 1. Install dependencies:
-  1. Install [TemporaryDirectory](//github.com/ullet/TemporaryDirectory) PowerShell module.
+  1. Install [GeneralCommands](//github.com/ullet/GeneralCommands) PowerShell module.
 2. Download [master.zip](//github.com/ullet/TfsCommands/archive/master.zip) for this repository
 3. Extract the contents of the zip file to a new folder named "TfsCommands" inside your
    WindowsPowerShell\Modules folder.
